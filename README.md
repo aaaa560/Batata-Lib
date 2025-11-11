@@ -1,1 +1,2 @@
-Essa lib foi feita especialmente para mim então não espere por nada
+Essa lib foi feita especialmente para mim então
+**não espere por nada além do funcional<small>(e mal feito)</small>**<br>

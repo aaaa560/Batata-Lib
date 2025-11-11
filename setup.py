@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='potato',
-    version='0.0.3',
+    version='0.0.4',
     author='Decaptado',
     description='Biblioteca pessoal pra facilitar minha vida',
     packages=find_packages(),

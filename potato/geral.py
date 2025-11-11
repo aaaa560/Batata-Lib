@@ -1,7 +1,7 @@
 from typing import Any
 from potato.errors import ParamError
 
-CORES: dict[str, dict[str, str]] = {
+COLORS: dict[str, dict[str, str]] = {
     'BOLD': {
         'BLACK': '\033[1;30m',
         'RED': '\033[1;31m',
@@ -49,13 +49,13 @@ def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '',
         mode = mode.upper()
         color = color.upper()
 
-        if mode not in CORES:
+        if mode not in COLORS:
             raise ParamError('\033[1;34mModo invalido!')
 
-        if color not in CORES[mode]:
+        if color not in COLORS[mode]:
             raise ParamError('\033[1;34mCor invalida!')
 
-        print(CORES[mode][color], end='')
+        print(COLORS[mode][color], end='')
 
     print(sep.join(valor), end=end, sep=sep)
 
@@ -81,7 +81,7 @@ def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = Fals
                     return float(input(prompt))
                 case _:
                     raise ParamError(
-                        f'{CORES["BOLD"]["RED"]}ERRO! {CORES["BOLD"]["BLUE"]}Parametro num_type deve ser: int | float')
+                        f'{COLORS["BOLD"]["RED"]}ERRO! {COLORS["BOLD"]["BLUE"]}Parametro num_type deve ser: int | float')
         except ValueError:
             print(erro_msg)
             if not retry:
