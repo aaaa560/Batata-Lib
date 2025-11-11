@@ -1,3 +1,3 @@
-from potato.geral import get_num
+from potato.geral import mostra
 
-num = get_num('Teste: ', 'Número invalido', True, 'f64')
+mostra('Teste', color='blue', mode='BOLD')
