@@ -36,7 +36,7 @@ def write_file(arquivo: str, content: str) -> None:
 
     :return: None
     """
-    with open(arquivo, "a+", encoding="utf-8") as file:
+    with open(arquivo, "a", encoding="utf-8") as file:
         file.write(content)
 
 

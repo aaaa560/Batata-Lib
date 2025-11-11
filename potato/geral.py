@@ -102,16 +102,18 @@ def fat(num: int, verbose: bool = False) -> int:
     :return: Retorna o número do fatorial
     """
 
+    if num < 0:
+        return 0
+    if num <= 1:
+        return 1
+
     fatorial: int = 1
-
-    if num < 1:
-        return fatorial
-
-    while num >= 2:
-        fatorial += num
+    i: int = num
+    while i >= 2:
+        fatorial *= i
         if verbose:
             print(fatorial)
-        num -= 1
+        i -= 1
 
     return fatorial
 
@@ -135,10 +137,11 @@ def primo(num: int) -> bool:
 
     :return: Retorna True se o número for primo e False se o número não for primo
     """
-    if num < 2:
-        return False
 
-    if par(num):
+    if num == 2:
+        return True
+
+    if num < 2 or par(num):
         return False
 
     for in_num in range(2, num):
