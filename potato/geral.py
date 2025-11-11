@@ -1,4 +1,5 @@
 from typing import Any
+from potato.errors import ParamError
 
 CORES: dict[str, dict[str, str]] = {
     'BOLD': {
@@ -35,10 +36,23 @@ def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ') -> None:
     print(sep.join(valor), end=end, sep=sep)
 
 
-def get_int(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = False) -> int | float | None:
+def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = False, num_type: str = 'int') -> int | float | None:
+    """Função para pegar um número
+    :param num_type: O tipo do valor a ser retornado deve ser int | float
+    :param prompt: O prompt para o usuário
+    :param erro_msg: A mensagem de erro
+    :param retry: Parametro para verificar se vai se repetir
+    :return:
+    """
     while True:
         try:
-            return int(input(prompt))
+            match num_type:
+                case 'int':
+                    return int(input(prompt))
+                case 'float':
+                    return float(input(prompt))
+                case _:
+                    raise ParamError(f'{CORES["BOLD"]["RED"]}ERRO! {CORES["BOLD"]["BLUE"]}Parametro num_type deve ser: int | float')
         except ValueError:
             print(erro_msg)
             if not retry:

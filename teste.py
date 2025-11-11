@@ -1,7 +1,3 @@
-from potato.geral import mostra, CORES
+from potato.geral import get_num
 
-for tipo in CORES:
-    mostra(tipo, end=': ')
-    for cor in CORES[tipo]:
-        mostra(cor, end=', ')
-    mostra()
+num = get_num('Teste: ', 'Número invalido', True, 'f64')
