@@ -23,7 +23,34 @@ COLORS: dict[str, dict[str, str]] = {
         'CYAN': '\033[;36m',
         'GRAY': '\033[;37m',
         'WHITE': '\033[;38m'
+    },
+    'ITAL': {
+        'BLACK': '\033[3;30m',
+        'RED': '\033[3;31m',
+        'GREEN': '\033[3;32m',
+        'YELLOW': '\033[3;33m',
+        'BLUE': '\033[3;34m',
+        'PURPLE': '\033[3;35m',
+        'CYAN': '\033[3;36m',
+        'GRAY': '\033[3;37m',
+        'WHITE': '\033[3;38m'
+    },
+    'UND': {
+        'BLACK': '\033[4;30m',
+        'RED': '\033[4;31m',
+        'GREEN': '\033[4;32m',
+        'YELLOW': '\033[4;33m',
+        'BLUE': '\033[4;34m',
+        'PURPLE': '\033[4;35m',
+        'CYAN': '\033[4;36m',
+        'GRAY': '\033[4;37m',
+        'WHITE': '\033[4;38m'
     }
+}
+MODES: dict[str, str] = {
+    'ITAL': '\033[3m',
+    'BOLD': '\033[1m',
+    'UND': '\033[4m'
 }
 
 
@@ -35,29 +62,48 @@ def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '',
     :param end: O que vai estar no final
     :param valor: O que vai ser imprimido
     :param color: Cor opcional
-    :param mode: Tipo obrigativo para cores automáticas (NOR ou BOLD)
+    :param mode: Tipo opcional
 
     :return: None
 
     Cores disponíveis:
-    BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, GRAY, WHITE
+    BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, GRAY, WHITE \n
     Tipos de texto:
-    BOLD, NOR
+    BOLD, NOR, ITAL, UND
     """
 
-    if color and mode:
-        mode = mode.upper()
-        color = color.upper()
+    if color or mode:
+        if color and mode:
+            color = color.upper()
+            mode = mode.upper()
 
-        if mode not in COLORS:
-            raise ParamError('\033[1;34mModo invalido!')
+            if mode not in COLORS:
+                raise ParamError('\033[1;31mERRO! \033[1;34mModo inválido!')
 
-        if color not in COLORS[mode]:
-            raise ParamError('\033[1;34mCor invalida!')
+            if color not in COLORS[mode]:
+                raise ParamError('\033[1;31mERRO! \033[1;34mCor inválida!')
 
-        print(COLORS[mode][color], end='')
+            print(COLORS[mode][color], end='')
+        elif mode and not color:
+            mode = mode.upper()
 
-    print(sep.join(valor), end=end, sep=sep)
+            if mode not in MODES:
+                raise ParamError('\033[1;31mERRO! \033[1;34mModo não disponível')
+
+            print(COLORS[mode], end='')
+        elif color and not mode:
+            if color not in COLORS['NOR']:
+                raise ParamError('\033[1;31mERRO! \033[1;34mCor inválida!')
+
+            print(COLORS['NOR'][color], end='')
+        else:
+            raise ParamError(
+                '\033[1;31mERRO! \033[1;34mParâmetros de cor e modo inválidos!',
+                param='color | mode',
+                esperado=f'{", ".join(key for key in COLORS)} | {", ".join(color for color in COLORS["NOR"])}'
+            )
+
+    print(sep.join(str(s) for s in valor), end=end, sep=sep)
 
 
 def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = False,
@@ -81,7 +127,7 @@ def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = Fals
                     return float(input(prompt))
                 case _:
                     raise ParamError(
-                        f'{COLORS["BOLD"]["RED"]}ERRO! {COLORS["BOLD"]["BLUE"]}Parametro num_type deve ser: int | float')
+                        f'{COLORS["BOLD"]["RED"]}ERRO! {COLORS["BOLD"]["BLUE"]}Parametro num_type deve ser: ’int’ ou ‘float’')
         except ValueError:
             print(erro_msg)
             if not retry:
@@ -144,7 +190,7 @@ def primo(num: int) -> bool:
     if num < 2 or par(num):
         return False
 
-    for in_num in range(2, num):
+    for in_num in range(2, int(raiz_qdd(num)) + 1, 2):
         if divisivel(num, in_num):
             return False
 
@@ -152,4 +198,11 @@ def primo(num: int) -> bool:
 
 
 def raiz_qdd(num: int | float) -> float:
-    return num ** 0.5
+    """
+    Essa função calcula a raiz quadrada de um número
+
+    :param num: Número para calcular a raiz quadrada
+
+    :return: Retorna a raiz quadrada
+    """
+    return num ** (1 / 2)

@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='potato',
-    version='0.0.5',
+    name='potato-lib',
+    version='0.0.6',
     author='Decaptado',
     description='Biblioteca pessoal pra facilitar minha vida',
     packages=find_packages(),
