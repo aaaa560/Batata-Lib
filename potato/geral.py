@@ -73,10 +73,10 @@ def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '',
     """
 
     if color or mode:
-        if color and mode:
-            color = color.upper()
-            mode = mode.upper()
+        color = color.upper()
+        mode = mode.upper()
 
+        if color and mode:
             if mode not in COLORS:
                 raise ParamError('\033[1;31mERRO! \033[1;34mModo inválido!')
 

@@ -1,3 +1,7 @@
 .idea
-./teste.py
+teste.py
 potato.egg-info
+/potato_lib.egg-info/dependency_links.txt
+/potato_lib.egg-info/PKG-INFO
+/potato_lib.egg-info/SOURCES.txt
+/potato_lib.egg-info/top_level.txt
