@@ -6,6 +6,9 @@ class FormaQualquer:
     def area(self) -> float:
         pass
 
+    def __repr__(self):
+        pass
+
 class Retangulo(FormaQualquer):
     def __init__(self, largura: float, altura: float) -> None:
         if largura < 0 or altura < 0:
@@ -20,6 +23,9 @@ class Retangulo(FormaQualquer):
     def area(self) -> float:
         return self.largura * self.altura
 
+    def __repr__(self) -> str:
+        return f'Retangulo(largura={self.largura}, altura={self.altura}, area={self.area()})'
+
 
 class Circulo(FormaQualquer):
     def __init__(self, raio: float) -> None:
@@ -27,6 +33,9 @@ class Circulo(FormaQualquer):
 
     def area(self) -> float:
         return pi * (self.raio ** 2)
+
+    def __repr__(self) -> str:
+        return f'Circulo(raio={self.raio}, area={self.area()})'
 
 
 class Triangulo(FormaQualquer):
@@ -37,6 +46,9 @@ class Triangulo(FormaQualquer):
     def area(self) -> float:
         return (self.base * self.altura) / 2
 
+    def __repr__(self) -> str:
+        return f'Triangulo(base={self.base}, altura={self.altura}, area={self.area()})'
+
 
 class Quadrado(Retangulo):
     def __init__(self, lado: float) -> None:
@@ -44,6 +56,9 @@ class Quadrado(Retangulo):
 
     def area(self) -> float:
         return self.largura * self.largura
+
+    def __repr__(self) -> str:
+        return f'Quadrado(lado={self.largura}, area={self.area()})'
 
 
 class Trapezio(FormaQualquer):
@@ -55,6 +70,9 @@ class Trapezio(FormaQualquer):
     def area(self) -> float:
         return ((self.base_grande + self.base) * self.altura) / 2
 
+    def __repr__(self) -> str:
+        return f'Trapezio(base_grande={self.base_grande}, base={self.base}, altura={self.altura}, area={self.area()})'
+
 
 class Losangulo(FormaQualquer):
     def __init__(self, diagonal: float, diagonal_maior: float) -> None:
@@ -63,5 +81,8 @@ class Losangulo(FormaQualquer):
 
     def area(self) -> float:
         return (self.diagonal * self.diagonal_maior) / 2
+
+    def __repr__(self) -> str:
+        return f'Losangulo(diagonal={self.diagonal}, diagonal_maior={self.diagonal_maior}, area={self.area()})'
 
 type FormaGeometrica = Retangulo | Circulo | Triangulo | Quadrado | Trapezio | Losangulo

@@ -128,3 +128,5 @@ def raiz_qdd(num: int | float) -> float:
     :return: Retorna a raiz quadrada
     """
     return num ** (1 / 2)
+
+__all__ = ['mostra', 'get_num', 'divisivel', 'par', 'primo', 'raiz_qdd']

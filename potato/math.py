@@ -68,3 +68,5 @@ def area(formato: FormaGeometrica) -> float:
     :return: Retorna a área da forma geométrica
     """
     return formato.area()
+
+__all__ = ['produto', 'fat', 'soma', 'area']

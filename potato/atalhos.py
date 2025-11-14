@@ -44,3 +44,5 @@ def out(valor: Any) -> None:
     :return: None
     """
     mostra(valor, color='blue', mode='bold')
+
+__all__ = ['info', 'warn', 'err', 'out']
