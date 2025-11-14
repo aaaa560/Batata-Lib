@@ -1,58 +1,6 @@
 from typing import Any
 from potato.errors import ParamError
-
-COLORS: dict[str, dict[str, str]] = {
-    'BOLD': {
-        'BLACK': '\033[1;30m',
-        'RED': '\033[1;31m',
-        'GREEN': '\033[1;32m',
-        'YELLOW': '\033[1;33m',
-        'BLUE': '\033[1;34m',
-        'PURPLE': '\033[1;35m',
-        'CYAN': '\033[1;36m',
-        'GRAY': '\033[1;37m',
-        'WHITE': '\033[1;38m'
-    },
-    'NOR': {
-        'BLACK': '\033[;30m',
-        'RED': '\033[;31m',
-        'GREEN': '\033[;32m',
-        'YELLOW': '\033[;33m',
-        'BLUE': '\033[;34m',
-        'PURPLE': '\033[;35m',
-        'CYAN': '\033[;36m',
-        'GRAY': '\033[;37m',
-        'WHITE': '\033[;38m'
-    },
-    'ITAL': {
-        'BLACK': '\033[3;30m',
-        'RED': '\033[3;31m',
-        'GREEN': '\033[3;32m',
-        'YELLOW': '\033[3;33m',
-        'BLUE': '\033[3;34m',
-        'PURPLE': '\033[3;35m',
-        'CYAN': '\033[3;36m',
-        'GRAY': '\033[3;37m',
-        'WHITE': '\033[3;38m'
-    },
-    'UND': {
-        'BLACK': '\033[4;30m',
-        'RED': '\033[4;31m',
-        'GREEN': '\033[4;32m',
-        'YELLOW': '\033[4;33m',
-        'BLUE': '\033[4;34m',
-        'PURPLE': '\033[4;35m',
-        'CYAN': '\033[4;36m',
-        'GRAY': '\033[4;37m',
-        'WHITE': '\033[4;38m'
-    }
-}
-MODES: dict[str, str] = {
-    'ITAL': '\033[3m',
-    'BOLD': '\033[1m',
-    'UND': '\033[4m'
-}
-
+from colors import COLORS, MODES
 
 def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '', mode: str = '') -> None:
     """
@@ -136,32 +84,6 @@ def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = Fals
 
 def divisivel(num1: int | float, num2: int | float) -> bool:
     return num1 % num2 == 0
-
-
-def fat(num: int, verbose: bool = False) -> int:
-    """
-    Calcula o fatorial de um número
-
-    :param verbose: Parametro para verificar se vai mostrar o número durante o cálculo
-    :param num: O número para pegar o fatorial
-
-    :return: Retorna o número do fatorial
-    """
-
-    if num < 0:
-        return 0
-    if num <= 1:
-        return 1
-
-    fatorial: int = 1
-    i: int = num
-    while i >= 2:
-        fatorial *= i
-        if verbose:
-            print(fatorial)
-        i -= 1
-
-    return fatorial
 
 
 def par(num: int) -> bool:

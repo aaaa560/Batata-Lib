@@ -3,6 +3,14 @@ class ParamError(Exception):
 
     def __init__(self, message: str = '\033[1;31mERRO! \033[1;34mParâmetro invalido!', code: int | None = None,
                  param: str = '', esperado: str = '') -> None:
+        """
+        Inicializa a exceção ParamError
+
+        :param message: A mensagem de erro
+        :param code: O código do erro
+        :param param: O parâmetro inválido
+        :param esperado: O valor esperado para o parâmetro
+        """
         super().__init__(message)
         self.code: int | None = code
         self.message: str = message
