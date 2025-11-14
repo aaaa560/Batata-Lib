@@ -2,9 +2,9 @@ from potato.errors import ParamError
 from potato.formas import FormaGeometrica
 
 
-def combinacoes(*valores: int) -> int:
+def produto(*valores: int) -> int:
     """
-    Retorna o total de combinações possíveis entre os valores fornecidos
+    Retorna o produto (multiplicação) de todos os valores
 
     :param valores: Valores para calcular as combinações
 

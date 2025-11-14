@@ -1,4 +1,3 @@
-type FormaGeometrica = Retangulo | Circulo | Triangulo | Quadrado | Trapezio | Losangulo
 from math import pi
 from potato.errors import ParamError
 
@@ -64,3 +63,5 @@ class Losangulo(FormaQualquer):
 
     def area(self) -> float:
         return (self.diagonal * self.diagonal_maior) / 2
+
+type FormaGeometrica = Retangulo | Circulo | Triangulo | Quadrado | Trapezio | Losangulo

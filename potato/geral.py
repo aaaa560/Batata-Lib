@@ -112,7 +112,7 @@ def primo(num: int) -> bool:
     if num < 2 or par(num):
         return False
 
-    for in_num in range(2, int(raiz_qdd(num)) + 1, 2):
+    for in_num in range(3, int(raiz_qdd(num)) + 1, 2):
         if divisivel(num, in_num):
             return False
 
