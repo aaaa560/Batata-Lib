@@ -1,6 +1,6 @@
 from typing import Any
 from potato.errors import ParamError
-from colors import COLORS, MODES
+from potato.colors import COLORS, MODES
 
 def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '', mode: str = '') -> None:
     """
