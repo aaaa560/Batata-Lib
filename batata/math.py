@@ -1,5 +1,5 @@
-from batata import ParamError
-from batata import FormaGeometrica
+from batata.errors import ParamError
+from batata.formas import FormaGeometrica
 
 __all__ = ['produto', 'fat', 'soma', 'area', 'divisivel', 'raiz_qdd']
 

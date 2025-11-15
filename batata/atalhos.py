@@ -1,5 +1,5 @@
 from typing import Any
-from batata import mostra
+from batata.geral import mostra
 
 __all__ = ['info', 'warn', 'err', 'out']
 

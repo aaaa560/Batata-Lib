@@ -1,7 +1,7 @@
 from typing import Any
-from batata import ParamError
-from batata import COLORS, MODES
-from batata import divisivel, raiz_qdd
+from batata.errors import ParamError
+from batata.colors import COLORS, MODES
+from batata.math import divisivel, raiz_qdd
 
 __all__ = ['mostra', 'get_num', 'par', 'primo']
 
