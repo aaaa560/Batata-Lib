@@ -1,84 +1,81 @@
 import json
+from pathlib import Path
 from typing import Any
 
 
-def creat_file(name: str) -> None:
-    """
-    Essa função apenas cria o arquivo
+class FileManager:
+    def __init__(self, path: Path, nome: str) -> None:
+        self.path = path
+        self.nome = nome
+        self.arquivo = f'{self.path}/{self.nome}'
 
-    :param name: Nome do arquivo que vai ser criado
+    def creat_file(self) -> None:
+        """
+        Essa função apenas cria o arquivo
 
-    :return: None
-    """
-    with open(name, "w", encoding="utf-8") as f:
-        return
+        :return: None
+        """
+        with open(self.arquivo, "w", encoding="utf-8"):
+            return
 
+    def read_file(self) -> str:
+        """
+        Essa função retorna o conteúdo de um arquivo
 
-def read_file(arquivo: str) -> str:
-    """
-    Essa função retorna o conteúdo de um arquivo
+        :return: O conteúdo do arquivo
+        """
+        with open(self.arquivo, "r", encoding="utf-8") as file:
+            conteudo = file.read()
 
-    :param arquivo: Nome do arquivo que vai ser lido
+        return conteudo
 
-    :return: O conteúdo do arquivo
-    """
-    with open(arquivo, "r", encoding="utf-8") as file:
-        conteudo = file.read()
+    def write_file(self, arquivo: str, content: str) -> None:
+        """
+        Essa função escreve alguma coisa em um arquivo
 
-    return conteudo
+        :param arquivo: Nome do arquivo que vai ser escrito
+        :param content: Contendo a ser adicionado
 
+        :return: None
+        """
+        with open(self.arquivo, "a", encoding="utf-8") as file:
+            file.write(content)
 
-def write_file(arquivo: str, content: str) -> None:
-    """
-    Essa função escreve alguma coisa em um arquivo
+    def creat_json(self, indent: int = 2) -> None:
+        """
+        Essa função cria um JSON
 
-    :param arquivo: Nome do arquivo que vai ser escrito
-    :param content: Contendo a ser adicionado
+        :param indent: (Opcional) Indentação do arquivo JSON
 
-    :return: None
-    """
-    with open(arquivo, "a", encoding="utf-8") as file:
-        file.write(content)
+        :return: None
+        """
+        with open(self.arquivo, "w", encoding="utf-8") as file:
+            file.write(json.dumps([], indent=indent))
 
+    def read_json(self) -> list:
+        """
+        Essa função le um JSON
 
-def creat_json(name: str, indent: int = 2) -> None:
-    """
-    Essa função cria um JSON
+        :param name: O nome do arquivo para ser lido
 
-    :param name: O nome do arquivo
-    :param indent: (Opcional) Indentação do arquivo JSON
+        :return: Conteúdo do JSON como uma lista
+        """
+        with open(self.arquivo, "r", encoding="utf-8") as file:
+            return json.load(file)
 
-    :return: None
-    """
-    with open(name, "w", encoding="utf-8") as file:
-        file.write(json.dumps([], indent=indent))
+    def write_json(self, name: str, content: dict[str, Any], indent: int = 2) -> None:
+        """
+        Essa função escreve coisas no JSON
 
+        :param name: O nome do arquivo para ser escrevido
+        :param content: Contendo a ser escrevido
+        :param indent: (Opcional) Indentação do arquivo JSON
 
-def read_json(name: str) -> list:
-    """
-    Essa função le um JSON
+        :return: None
+        """
+        data: list = self.read_json()
 
-    :param name: O nome do arquivo para ser lido
+        data.append(content)
 
-    :return: Conteúdo do JSON como uma lista
-    """
-    with open(name, "r", encoding="utf-8") as file:
-        return json.load(file)
-
-
-def write_json(name: str, content: dict[str, Any], indent: int = 2) -> None:
-    """
-    Essa função escreve coisas no JSON
-
-    :param name: O nome do arquivo para ser escrevido
-    :param content: Contendo a ser escrevido
-    :param indent: (Opcional) Indentação do arquivo JSON
-
-    :return: None
-    """
-    data: list = read_json(name)
-
-    data.append(content)
-
-    with open(name, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=indent)
+        with open(name, "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=indent)
