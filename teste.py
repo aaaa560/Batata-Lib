@@ -1,8 +1,8 @@
 # teste.py
-from potato.formas import Triangulo, Retangulo
-from potato.geral import primo, par
-from potato.math import fat, produto
-from potato.atalhos import info, warn, err
+from batata.formas import Triangulo, Retangulo
+from batata.geral import primo, par
+from batata.math import fat, produto
+from batata.atalhos import info, warn, err
 
 # Testa formas
 t = Triangulo(5, 10)

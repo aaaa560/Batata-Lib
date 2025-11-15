@@ -5,14 +5,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='potato-lib',  # Nome único pro PyPI
-    version='0.1.0',
+    name='batata-lib',  # Nome único pro PyPI
+    version='0.1.1',
     author='Decaptado',
-    author_email='seu_email@example.com',  # Opcional
     description='Biblioteca pessoal pra facilitar minha vida',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='https://github.com/seu-usuario/potato-lib',  # Coloca seu GitHub
+    url='https://github.com/aaaa560/potato-lib',  # Coloca seu GitHub
     packages=find_packages(),
     classifiers=[
         'Development Status :: 3 - Alpha',
