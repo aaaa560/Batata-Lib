@@ -1,21 +1,19 @@
-# teste.py
-from batata.formas import Triangulo, Retangulo
-from batata.geral import primo, par
-from batata.math import fat, produto
-from batata.atalhos import info, warn, err
+from batata.scraper import Scraper
 
-# Testa formas
-t = Triangulo(5, 10)
-print(t)  # Deve printar bonito agora!
-print(f"Área: {t.area()}")
+# 1. Scraper básico
+s = Scraper("https://quotes.toscrape.com")
+print(s.get_title())
+print(s.get_links()[:5])
 
-# Testa matemática
-print(primo(17))  # True
-print(par(8))     # True
-print(fat(5))     # 120
-print(produto(2, 3, 4))  # 24
+# 2. Extração estruturada
+schema = {
+    "texto": "span.text",
+    "autor": "small.author"
+}
+quotes = s.extract_list_structured("div.quote", schema)
+print(quotes[0])
 
-# Testa atalhos
-info("Tudo funcionando!")
-warn("Cuidado!")
-err("Erro de teste")
+# 3. Tabelas
+s2 = Scraper("https://www.scrapethissite.com/pages/forms/")
+tabela = s2.get_table()
+print(tabela[:3])

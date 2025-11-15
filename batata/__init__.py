@@ -4,6 +4,7 @@ from batata.atalhos import info, warn, err, out
 from batata.math import fat, soma, area
 from batata.formas import Retangulo, Circulo, Triangulo
 from batata.errors import ParamError, ScrapingError
+from batata.scraping import Scraper
 
 __version__ = "0.1.0"
 __all__ = [
@@ -11,5 +12,6 @@ __all__ = [
     'info', 'warn', 'err', 'out',
     'fat', 'soma', 'area',
     'Retangulo', 'Circulo', 'Triangulo',
-    'ParamError', 'ScrapingError'
+    'ParamError', 'ScrapingError',
+    'Scraper'
 ]
