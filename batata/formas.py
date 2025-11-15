@@ -1,5 +1,5 @@
 from math import pi
-from batata.errors import ParamError
+from batata import ParamError
 
 
 class FormaQualquer:
@@ -8,6 +8,7 @@ class FormaQualquer:
 
     def __repr__(self):
         pass
+
 
 class Retangulo(FormaQualquer):
     def __init__(self, largura: float, altura: float) -> None:
@@ -84,5 +85,6 @@ class Losangulo(FormaQualquer):
 
     def __repr__(self) -> str:
         return f'Losangulo(diagonal={self.diagonal}, diagonal_maior={self.diagonal_maior}, area={self.area()})'
+
 
 type FormaGeometrica = Retangulo | Circulo | Triangulo | Quadrado | Trapezio | Losangulo
