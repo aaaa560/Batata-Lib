@@ -1,5 +1,5 @@
 from math import pi
-from potato.errors import ParamError
+from batata.errors import ParamError
 
 
 class FormaQualquer:

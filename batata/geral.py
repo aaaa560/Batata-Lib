@@ -1,6 +1,9 @@
 from typing import Any
-from potato.errors import ParamError
-from potato.colors import COLORS, MODES
+from batata.errors import ParamError
+from batata.colors import COLORS, MODES
+
+__all__ = ['mostra', 'get_num', 'divisivel', 'par', 'primo', 'raiz_qdd']
+
 
 def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '', mode: str = '') -> None:
     """
@@ -51,7 +54,7 @@ def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '',
                 esperado=f'{", ".join(key for key in COLORS)} | {", ".join(color for color in COLORS["NOR"])}'
             )
 
-    print(sep.join(str(s) for s in valor), end=end, sep=sep)
+    print(sep.join(str(s) + '\033[m' for s in valor), end=end, sep=sep)
 
 
 def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = False,
@@ -128,5 +131,3 @@ def raiz_qdd(num: int | float) -> float:
     :return: Retorna a raiz quadrada
     """
     return num ** (1 / 2)
-
-__all__ = ['mostra', 'get_num', 'divisivel', 'par', 'primo', 'raiz_qdd']

@@ -1,5 +1,7 @@
-from potato.errors import ParamError
-from potato.formas import FormaGeometrica
+from batata.errors import ParamError
+from batata.formas import FormaGeometrica
+
+__all__ = ['produto', 'fat', 'soma', 'area']
 
 
 def produto(*valores: int) -> int:
@@ -68,5 +70,3 @@ def area(formato: FormaGeometrica) -> float:
     :return: Retorna a área da forma geométrica
     """
     return formato.area()
-
-__all__ = ['produto', 'fat', 'soma', 'area']

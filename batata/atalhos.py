@@ -1,5 +1,7 @@
 from typing import Any
-from potato.geral import mostra
+from batata.geral import mostra
+
+__all__ = ['info', 'warn', 'err', 'out']
 
 
 def info(informacao: Any) -> None:
@@ -44,5 +46,3 @@ def out(valor: Any) -> None:
     :return: None
     """
     mostra(valor, color='blue', mode='bold')
-
-__all__ = ['info', 'warn', 'err', 'out']
