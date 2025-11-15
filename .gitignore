@@ -1,5 +1,5 @@
 .idea
-teste.py
+testes/teste.py
 batata_lib.egg-info
 build
 build/bdist.macosx-10.13-universal2
@@ -13,3 +13,5 @@ build/lib/batata/formas.py
 build/lib/batata/geral.py
 build/lib/batata/math.py
 build/lib/batata/tk.py
+testes
+testes/dados.txt

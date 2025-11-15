@@ -1,5 +1,4 @@
 from typing import Any
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -42,10 +41,3 @@ class Scraper:
 
     def __repr__(self) -> str:
         return f'Scraper(url={self.url})'
-
-
-URL: str = 'https://www.scrapethissite.com/pages/simple'
-
-scraper: Scraper = Scraper(URL)
-print(scraper.scrape())
-

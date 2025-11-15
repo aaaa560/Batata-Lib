@@ -1,3 +1,5 @@
+from batata.errors import ParamError
+
 COLORS: dict[str, dict[str, str]] = {
     'BOLD': {
         'BLACK': '\033[1;30m',
@@ -45,7 +47,24 @@ COLORS: dict[str, dict[str, str]] = {
     }
 }
 MODES: dict[str, str] = {
+    'NOR': '\033[0m',
     'ITAL': '\033[3m',
     'BOLD': '\033[1m',
     'UND': '\033[4m'
 }
+
+
+class Color:
+    def __init__(self, color: str, mode: str = 'NOR') -> None:
+        if color.upper() not in COLORS['NOR'] or mode.upper() not in MODES:
+            raise ParamError(
+                'Cor ou modo inválido.',
+                param='color | mode',
+                esperado=f'{", ".join(COLORS['NOR'].keys())} | {", ".join(MODES.keys())}'
+            )
+
+        self.mode: str = MODES[mode.upper()]
+        self.color: str = COLORS[mode.upper()][color.upper()]
+
+    def __repr__(self) -> str:
+        return f'{self.mode}{self.color}'

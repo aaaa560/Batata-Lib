@@ -33,7 +33,7 @@ class Circulo(FormaQualquer):
         self.raio = raio
 
     def area(self) -> float:
-        return pi * (self.raio ** 2)
+        return float(f'{pi * (self.raio ** 2):.1f}')
 
     def __repr__(self) -> str:
         return f'Circulo(raio={self.raio}, area={self.area()})'
