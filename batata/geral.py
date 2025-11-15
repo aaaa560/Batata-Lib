@@ -1,9 +1,8 @@
 from typing import Any
 from batata.errors import ParamError
 from batata.colors import COLORS, MODES
-from batata.math import divisivel, raiz_qdd
 
-__all__ = ['mostra', 'get_num', 'par', 'primo']
+__all__ = ['mostra', 'get_num', 'par', 'primo', 'divisivel', 'raiz_qdd']
 
 
 def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '', mode: str = '') -> None:
@@ -117,3 +116,18 @@ def primo(num: int) -> bool:
             return False
 
     return True
+
+
+def divisivel(num1: int | float, num2: int | float) -> bool:
+    return num1 % num2 == 0
+
+
+def raiz_qdd(num: int | float) -> float:
+    """
+    Essa função calcula a raiz quadrada de um número
+
+    :param num: Número para calcular a raiz quadrada
+
+    :return: Retorna a raiz quadrada
+    """
+    return num ** (1 / 2)

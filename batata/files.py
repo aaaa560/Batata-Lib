@@ -2,19 +2,16 @@ import json
 import csv
 from pathlib import Path
 from typing import Any
-from batata import err
+from batata.atalhos import err
 
 
 class FileManager:
-    def __init__(self, path: Path | str, nome: str, indent: int = 2) -> None:
-        self.path: Path | str = path
+    def __init__(self, path: str, nome: str, indent: int = 2) -> None:
+        self.path: Path = Path(path)
         self.nome: str = nome
         self.indent: int = indent
 
-        if path[:2] == './':
-            self.arquivo = f'{self.path}{self.nome}'
-        else:
-            self.arquivo = f'{self.path}/{self.nome}'
+        self.arquivo: str = str(self.path / self.nome)
 
         self.mode: str
         if self.arquivo.endswith('.csv'):
@@ -124,7 +121,7 @@ class FileManager:
         except Exception as e:
             err(f'Erro ao escrever no arquivo JSON: {e}')
 
-    def creat_csv(self, header: list[str]) -> None:
+    def creat_csv(self, header: list[str] | None = None) -> None:
         """
         Essa função cria um arquivo CSV
 
@@ -133,7 +130,8 @@ class FileManager:
         try:
             with open(self.arquivo, "w", encoding="utf-8") as file:
                 writer = csv.writer(file)
-                writer.writerow(header)
+                if header:
+                    writer.writerow(header)
                 return
         except Exception as e:
             err(f'Erro ao criar o arquivo CSV: {e}')

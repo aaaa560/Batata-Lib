@@ -1,7 +1,7 @@
 # batata/__init__.py
-from batata.geral import mostra, get_num, par, primo
+from batata.geral import mostra, get_num, par, primo, divisivel, raiz_qdd
 from batata.atalhos import info, warn, err, out
-from batata.math import fat, soma, area, divisivel, raiz_qdd, produto
+from batata.math import fat, soma, area, produto
 from batata.formas import Retangulo, Circulo, Triangulo, FormaQualquer, FormaGeometrica
 from batata.errors import ParamError, ScrapingError
 from batata.scraping import Scraper

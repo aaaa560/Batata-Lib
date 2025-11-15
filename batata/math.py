@@ -1,7 +1,7 @@
 from batata.errors import ParamError
 from batata.formas import FormaGeometrica
 
-__all__ = ['produto', 'fat', 'soma', 'area', 'divisivel', 'raiz_qdd']
+__all__ = ['produto', 'fat', 'soma', 'area']
 
 
 def produto(*valores: int) -> int:
@@ -70,18 +70,3 @@ def area(formato: FormaGeometrica) -> float:
     :return: Retorna a área da forma geométrica
     """
     return formato.area()
-
-
-def divisivel(num1: int | float, num2: int | float) -> bool:
-    return num1 % num2 == 0
-
-
-def raiz_qdd(num: int | float) -> float:
-    """
-    Essa função calcula a raiz quadrada de um número
-
-    :param num: Número para calcular a raiz quadrada
-
-    :return: Retorna a raiz quadrada
-    """
-    return num ** (1 / 2)
