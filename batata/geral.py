@@ -2,7 +2,7 @@ from typing import Any
 from batata.errors import ParamError
 from batata.colors import COLORS, MODES
 
-__all__ = ['mostra', 'get_num', 'par', 'primo', 'divisivel', 'raiz_qdd']
+__all__ = ['mostra', 'get_num', 'par', 'primo', 'divisivel', 'raiz_qdd', 'get_inp']
 
 
 def mostra(*valor: Any, end: str | None = '\n', sep: str = ' ', color: str = '', mode: str = '') -> None:
@@ -83,6 +83,19 @@ def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = Fals
             print(erro_msg)
             if not retry:
                 break
+
+
+def get_inp(prompt: str, erro_msg: str = 'Entrada inválida!', retry: bool = False, color: str | None = None,
+            mode: str | None = None) -> str | None:
+    if color or mode:
+        if color and not mode:
+            mostra(prompt, color=color, mode='bold', end='')
+        elif mode and not color:
+            mostra(prompt, color='blue', mode=mode, end='')
+        elif mode and color:
+            mostra(prompt, color=color, mode=mode, end='')
+
+    return input(prompt)
 
 
 def par(num: int) -> bool:

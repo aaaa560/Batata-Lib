@@ -163,4 +163,4 @@ class FileManager:
             return []
 
     def __repr__(self) -> str:
-        return f'FileManager(path={self.path}, nome={self.nome}, arquivo={self.arquivo}, mode={self.mode})'
+        return f'FileManager(path={self.path}/, nome={self.nome}, arquivo={self.arquivo}, mode={self.mode})'

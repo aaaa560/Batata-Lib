@@ -7,6 +7,7 @@ from batata.errors import ParamError, ScrapingError
 from batata.scraping import Scraper
 from batata.files import FileManager
 from batata.colors import COLORS, MODES, Color
+from batata.cli import CLI
 
 __version__ = "0.1.0"
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     'ParamError', 'ScrapingError',
     'Scraper',
     'FileManager',
-    'COLORS', 'MODES', 'Color'
+    'COLORS', 'MODES', 'Color',
+    'CLI'
 ]
