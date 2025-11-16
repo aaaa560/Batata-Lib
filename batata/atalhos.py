@@ -16,13 +16,14 @@ def info(*informacao: Any, custom_color: str | None = None, custom_mode: str | N
     """
     if custom_color or custom_mode:
         if custom_color and not custom_mode:
-            mostra(f'[INFO]: {informacao}', color=custom_color, mode='bold')
+            mostra(f'[INFO]: '.join(informacao), color=custom_color, mode='bold')
         elif custom_mode and not custom_color:
-            mostra(f'[INFO]: {informacao}', color='yellow', mode=custom_mode)
+            mostra(f'[INFO]: '.join(informacao), color='yellow', mode=custom_mode)
         elif custom_mode and custom_color:
-            mostra(f'[INFO]: {informacao}', color=custom_color, mode=custom_mode)
+            mostra(f'[INFO]: '.join(informacao), color=custom_color, mode=custom_mode)
         return
-    mostra(f'[INFO]: {informacao}', color='cyan', mode='bold')
+
+    mostra(f'[INFO]: '.join(informacao), color='cyan', mode='bold')
 
 
 def warn(waring: Any, custom_color: str | None = None, custom_mode: str | None = None) -> None:
