@@ -2,7 +2,7 @@ import json
 import csv
 from pathlib import Path
 from typing import Any
-from batata.atalhos import err
+from batata.aliases import err
 
 
 class FileManager:

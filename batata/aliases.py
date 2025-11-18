@@ -1,7 +1,7 @@
 from typing import Any
 from batata.geral import mostra, get_inp
 
-__all__ = ['info', 'warn', 'err', 'out']
+__all__ = ['info', 'warn', 'err', 'out', 'perguntar']
 
 
 def info(*informacao: Any, custom_color: str | None = None, custom_mode: str | None = None) -> None:
