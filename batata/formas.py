@@ -6,7 +6,7 @@ class FormaQualquer:
     def area(self) -> float:
         pass
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         pass
 
 
