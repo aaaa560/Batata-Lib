@@ -6,7 +6,7 @@ from batata.aliases import err
 
 
 class FileManager:
-    def __init__(self, path: str, nome: str, indent: int = 2) -> None:
+    def __init__(self, nome: str, path: str = './', indent: int = 2) -> None:
         self.path: Path = Path(path)
         self.nome: str = nome
         self.indent: int = indent
@@ -73,8 +73,6 @@ class FileManager:
         """
         Essa função cria um JSON
 
-        :param indent: (Opcional) Indentação do arquivo JSON
-
         :return: None
         """
         with open(self.arquivo, "w", encoding="utf-8") as file:
@@ -98,7 +96,7 @@ class FileManager:
             err(f'Erro ao ler o arquivo JSON: {e}')
             return []
 
-    def write_json(self, content: list[dict[str, Any]]) -> None:
+    def write_json(self, content: dict[str, Any]) -> None:
         """
         Essa função escreve coisas no JSON
 
