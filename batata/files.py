@@ -6,12 +6,12 @@ from batata.aliases import err
 
 
 class FileManager:
-    def __init__(self, nome: str, path: str = './', indent: int = 2) -> None:
+    def __init__(self, name: str, path: str = './', indent: int = 2) -> None:
         self.path: Path = Path(path)
-        self.nome: str = nome
+        self.name: str = name
         self.indent: int = indent
 
-        self.arquivo: str = str(self.path / self.nome)
+        self.arquivo: str = str(self.path / self.name)
 
         self.mode: str
         if self.arquivo.endswith('.csv'):
@@ -23,7 +23,7 @@ class FileManager:
         else:
             self.mode = 'file'
 
-    def creat_file(self) -> None:
+    def creat(self) -> None:
         """
         Essa função apenas cria o arquivo
 
@@ -35,7 +35,7 @@ class FileManager:
         except Exception as e:
             err(f'Erro ao criar o arquivo: {e}')
 
-    def read_file(self) -> str:
+    def read(self) -> str:
         """
         Essa função retorna o conteúdo de um arquivo
 
@@ -53,7 +53,7 @@ class FileManager:
 
         return conteudo
 
-    def write_file(self, content: str) -> None:
+    def write(self, content: str) -> None:
         """
         Essa função escreve alguma coisa em um arquivo
 
@@ -65,11 +65,19 @@ class FileManager:
             with open(self.arquivo, "a", encoding="utf-8") as file:
                 file.write(content)
         except FileNotFoundError:
-            self.creat_file()
+            self.creat()
             with open(self.arquivo, "a", encoding="utf-8") as file:
                 file.write(content)
 
-    def creat_json(self) -> None:
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(path={self.path}/, name={self.name}, arquivo={self.arquivo}, mode={self.mode})'
+
+
+class JSONManager(FileManager):
+    def __init__(self, name: str, path: str = './', indent: int = 2) -> None:
+        super().__init__(path=path, name=name, indent=indent)
+
+    def creat(self) -> None:
         """
         Essa função cria um JSON
 
@@ -78,7 +86,7 @@ class FileManager:
         with open(self.arquivo, "w", encoding="utf-8") as file:
             file.write(json.dumps([], indent=self.indent))
 
-    def read_json(self) -> list:
+    def read(self) -> list:
         """
         Essa função le um JSON
 
@@ -89,14 +97,14 @@ class FileManager:
                 return json.load(file)
         except FileNotFoundError:
             err('Arquivo JSON não encontrado! Criando um novo...')
-            self.creat_json()
+            self.creat()
             with open(self.arquivo, "r", encoding="utf-8") as file:
                 return json.load(file)
         except Exception as e:
             err(f'Erro ao ler o arquivo JSON: {e}')
             return []
 
-    def write_json(self, content: dict[str, Any]) -> None:
+    def write(self, content: dict[str, Any]) -> None:
         """
         Essa função escreve coisas no JSON
 
@@ -104,7 +112,7 @@ class FileManager:
 
         :return: None
         """
-        data: list = self.read_json()
+        data: list = self.read()
 
         data.append(content)
 
@@ -113,13 +121,18 @@ class FileManager:
                 json.dump(data, file, indent=self.indent)
         except FileNotFoundError as not_file:
             err(f'Arquivo não encontrado: {not_file}! Criando um novo...')
-            self.creat_json()
+            self.creat()
             with open(self.arquivo, "w", encoding="utf-8") as file:
                 json.dump(data, file, indent=self.indent)
         except Exception as e:
             err(f'Erro ao escrever no arquivo JSON: {e}')
 
-    def creat_csv(self, header: list[str] | None = None) -> None:
+
+class CSVManager(FileManager):
+    def __init__(self, name: str, path: str = './'):
+        super().__init__(name=name, path=path)
+
+    def creat(self, header: list[str] | None = None) -> None:
         """
         Essa função cria um arquivo CSV
 
@@ -134,21 +147,21 @@ class FileManager:
         except Exception as e:
             err(f'Erro ao criar o arquivo CSV: {e}')
 
-    def write_csv(self, content: list[str]) -> None:
+    def write(self, content: list[str]) -> None:
         try:
             with open(self.arquivo, "a", encoding="utf-8") as file:
                 writer = csv.writer(file)
                 writer.writerow(content)
         except FileNotFoundError:
             err('Arquivo CSV não encontrado! Criando um novo...')
-            self.creat_csv()
+            self.creat()
             with open(self.arquivo, "a", encoding="utf-8") as file:
                 writer = csv.writer(file)
                 writer.writerow(content)
         except Exception as e:
             err(f'Erro ao escrever no arquivo CSV: {e}')
 
-    def read_csv(self) -> list[list[str]]:
+    def read(self) -> list[list[str]]:
         try:
             with open(self.arquivo, "r", encoding="utf-8") as file:
                 reader = csv.reader(file)
@@ -159,6 +172,3 @@ class FileManager:
         except Exception as e:
             err(f'Erro ao ler o arquivo CSV: {e}')
             return []
-
-    def __repr__(self) -> str:
-        return f'FileManager(path={self.path}/, nome={self.nome}, arquivo={self.arquivo}, mode={self.mode})'

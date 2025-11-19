@@ -9,6 +9,7 @@ class API:
     """
     Classe base para usar APIs
     """
+
     def __init__(self, url: str, headers: dict[str, str] | None = None) -> None:
         if headers is None:
             headers = {
@@ -48,6 +49,7 @@ class PokeAPI(API):
     """
     API simples que usa o PokéAPI
     """
+
     def __init__(self):
         super().__init__(url='https://pokeapi.co/api/v2')
 
@@ -67,12 +69,12 @@ class PokeAPI(API):
         return pokemons_data
 
 
-def get(url: str) -> dict[str, Any]:
-    return requests.get(url).json()
+def get(url: str, endpoint: str = '') -> dict[str, Any]:
+    return requests.get(f'{url}/{endpoint}').json()
 
 
-def post(url: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:
-    return requests.post(url, json=payload).json()
+def post(url: str, endpoint: str = '', payload: dict[str, Any] | None = None) -> dict[str, Any]:
+    return requests.post(f'{url}/{endpoint}', json=payload).json()
 
 
 def find_pokemon(query: str) -> list[Any]:

@@ -5,7 +5,7 @@ from batata.math import fat, soma, area, produto
 from batata.formas import Retangulo, Circulo, Triangulo, FormaQualquer, FormaGeometrica
 from batata.errors import ParamError, ScrapingError
 from batata.scraping import Scraper
-from batata.files import FileManager
+from batata.files import FileManager, JSONManager, CSVManager
 from batata.colors import COLORS, MODES, Color
 from batata.cli import CLI
 from batata.apis import get, post, API, PokeAPI
@@ -18,7 +18,7 @@ __all__ = [
     'Retangulo', 'Circulo', 'Triangulo', 'FormaQualquer', 'FormaGeometrica',
     'ParamError', 'ScrapingError',
     'Scraper',
-    'FileManager',
+    'FileManager', 'JSONManager', 'CSVManager',
     'COLORS', 'MODES', 'Color',
     'CLI',
     'get', 'post', 'API', 'PokeAPI'
