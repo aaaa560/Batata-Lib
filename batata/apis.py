@@ -1,8 +1,9 @@
-from typing import Any
 import requests
+from typing import Any
 from difflib import get_close_matches
 
 __all__ = ['get', 'post', 'API', 'PokeAPI']
+TRANSLATOR: str = 'https://tradutor-pq-sim.onrender.com'  # Sim isso funciona
 
 
 class API:
@@ -45,6 +46,18 @@ class API:
         )
 
 
+class TranslatorAPI(API):
+    def __init__(self, url: str, ) -> None:
+        super().__init__(url)
+
+    def translate(self, payload: dict[str, Any]) -> dict[str, Any]:
+        return post(
+            url=self.url,
+            endpoint='translate',
+            payload=payload
+        )
+
+
 class PokeAPI(API):
     """
     API simples que usa o PokéAPI
@@ -67,6 +80,63 @@ class PokeAPI(API):
                 pokemons_data[pokemon]['abilidades'].append(habilidade['ability'])
 
         return pokemons_data
+
+
+class DogAPI(API):
+    def __init__(self, quota: int) -> None:
+        if quota > 50:
+            quota = 50
+
+        if quota < 1:
+            quota = 1
+
+        super().__init__(url=f'https://dogapi.dog')
+        self.quota = quota
+
+    def get_facts(self) -> list[dict[str, Any]]:
+        facts = self.get(endpoint=f'api/v2/facts?limit={self.quota}').json()
+
+        return facts['data']
+
+
+class RandomUF(API):
+    def __init__(self) -> None:
+        super().__init__(url='https://uselessfacts.jsph.pl')
+
+    def get_fact(self, include_id: bool = False, include_source: bool = False, translate: bool = True) -> dict[
+        str, Any]:
+        data: dict[str, Any] = self.get('api/v2/facts/random').json()
+        if translate:
+            translator: TranslatorAPI = TranslatorAPI(TRANSLATOR)
+
+            try:
+                traduction = translator.translate({
+                    "text": data['text'],
+                    "to": "pt"
+                })
+                result: dict[str, Any] = {'fact': traduction['translatedText']}
+            except:
+                result: dict[str, Any] = {'fact': data['text']}
+        else:
+            result: dict[str, Any] = {'fact': data['text']}
+
+        if include_id:
+            result['id'] = data['id']
+
+        if include_source:
+            result['source'] = data['source']
+
+        return result
+
+
+class DarkJoke(API):
+    def __init__(self) -> None:
+        super().__init__('https://v2.jokeapi.dev/joke')
+
+    def get_darkjoke(self) -> str:
+        data = self.get('Any?lang=pt&blacklistFlags=nsfw,political,racist,sexist,explicit').json()
+
+        return '\n'.join([data['setup'], data['delivery']])
 
 
 def get(url: str, endpoint: str = '') -> dict[str, Any]:
