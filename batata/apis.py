@@ -59,10 +59,10 @@ class PokeAPI(API):
 
         for pokemon in pokemons_name:
             data = self.get(endpoint=f'/pokemon/{pokemon}').json()
-            abilidades: list[dict[str, Any]] = data['abilities']
+            habilidades: list[dict[str, Any]] = data['abilities']
             pokemons_data[pokemon] = {}
 
-            for habilidade in abilidades:
+            for habilidade in habilidades:
                 pokemons_data[pokemon].setdefault('abilidades', [])
                 pokemons_data[pokemon]['abilidades'].append(habilidade['ability'])
 

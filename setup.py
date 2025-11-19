@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='batata-lib',
-    version='0.1.5',
+    version='0.1.6',
     author='Decaptado',
     description='Biblioteca pessoal pra facilitar minha vida',
     long_description=long_description,

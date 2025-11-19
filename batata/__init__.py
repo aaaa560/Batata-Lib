@@ -10,7 +10,7 @@ from batata.colors import COLORS, MODES, Color
 from batata.cli import CLI
 from batata.apis import get, post, API, PokeAPI
 
-__version__ = '0.1.3'
+__version__ = '0.1.6'
 __all__ = [
     'mostra', 'get_num', 'par', 'primo',
     'info', 'warn', 'err', 'out', 'perguntar',

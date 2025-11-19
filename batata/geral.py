@@ -78,14 +78,17 @@ def get_num(prompt: str, erro_msg: str = 'Número invalido!', retry: bool = Fals
                     return float(input(prompt))
                 case _:
                     raise ParamError(
-                        f'{COLORS["BOLD"]["RED"]}ERRO! {COLORS["BOLD"]["BLUE"]}Parametro num_type deve ser: ’int’ ou ‘float’')
+                        message=f'{COLORS["BOLD"]["RED"]}ERRO! {COLORS["BOLD"]["BLUE"]}Parametro num_type deve ser: ’int’ ou ‘float’',
+                        param='num_type',
+                        esperado='int | float'
+                    )
         except ValueError:
             print(erro_msg)
             if not retry:
                 break
 
 
-def get_inp(prompt: str, erro_msg: str = 'Entrada inválida!', retry: bool = False, color: str | None = None,
+def get_inp(prompt: str, color: str | None = None,
             mode: str | None = None) -> str | None:
     if color or mode:
         if color and not mode:
