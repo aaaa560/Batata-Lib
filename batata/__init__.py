@@ -8,7 +8,7 @@ from batata.scraping import Scraper
 from batata.files import FileManager, JSONManager, CSVManager
 from batata.colors import COLORS, MODES, Color
 from batata.cli import CLI
-from batata.apis import get, post, API, PokeAPI
+from batata.apis import get, post, API, PokeAPI, GitHubAPI, WeatherAPI, CurrencyAPI
 
 __version__ = '0.1.3'
 __all__ = [
@@ -21,5 +21,5 @@ __all__ = [
     'FileManager', 'JSONManager', 'CSVManager',
     'COLORS', 'MODES', 'Color',
     'CLI',
-    'get', 'post', 'API', 'PokeAPI'
+    'get', 'post', 'API', 'PokeAPI', 'GitHubAPI', 'WeatherAPI', 'CurrencyAPI'
 ]

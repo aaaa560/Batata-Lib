@@ -12,13 +12,34 @@
 
 ## Recent Changes (Last Update: 2025-11-18)
 
-### Major Update: Module Reorganization and API Support
-The most recent commit introduced significant structural improvements and new functionality:
+### Latest: Expanded API Integrations
+Added three major API client classes following the base `API` pattern:
+
+#### New API Clients
+- **`GitHubAPI`**: Complete GitHub API integration
+  - User information and repository listing
+  - Repository search with sorting
+  - Commit history access
+  - Optional token authentication for higher rate limits
+  
+- **`WeatherAPI`**: OpenWeatherMap integration
+  - Current weather by city name or coordinates
+  - Multi-day weather forecasts
+  - Support for metric, imperial, and standard units
+  - Requires free API key from openweathermap.org
+  
+- **`CurrencyAPI`**: ExchangeRate-API integration
+  - Real-time currency exchange rates
+  - Currency conversion with automatic calculation
+  - Support for 150+ currencies
+  - Works without API key (limited features)
+
+### Previous: Module Reorganization and API Support
 
 #### Renamed Modules
 - **`atalhos.py` → `aliases.py`**: Renamed for better English naming consistency. Contains shortcut functions for user output (`info`, `warn`, `err`, `out`, `perguntar`).
 
-#### New Module: `apis.py`
+#### Initial `apis.py` Module
 Added comprehensive API interaction support:
 - **`API` class**: Generic base class for working with any REST API
   - Configurable headers with sensible defaults
@@ -61,11 +82,43 @@ Convenient output shortcuts with automatic formatting:
 
 All functions support custom colors and modes.
 
-#### 3. **apis.py** - API Integration (NEW)
-REST API interaction utilities:
-- `API`: Base class for API clients
-- `PokeAPI`: Ready-to-use Pokémon API client
-- Helper functions: `get()`, `post()`, `find_pokemon()`
+#### 3. **apis.py** - API Integration (EXPANDED)
+REST API interaction utilities with multiple ready-to-use clients:
+
+**Base Classes:**
+- `API`: Generic base class for building custom API clients
+  - Configurable headers and authentication
+  - GET and POST request methods
+  - Endpoint management
+
+**Ready-to-Use API Clients:**
+- `PokeAPI`: Pokémon API client
+  - Search Pokémon with fuzzy matching
+  - Get abilities and stats
+  - No authentication required
+
+- `GitHubAPI`: GitHub API client
+  - User and repository information
+  - Repository search and commits
+  - Optional token for higher rate limits
+  - Methods: `get_user()`, `get_repos()`, `get_repo()`, `search_repos()`, `get_repo_commits()`
+
+- `WeatherAPI`: OpenWeatherMap client
+  - Current weather and forecasts
+  - Search by city or coordinates
+  - Requires free API key
+  - Methods: `get_current_weather()`, `get_forecast()`, `get_weather_by_coords()`
+
+- `CurrencyAPI`: Exchange rate client
+  - Real-time currency rates
+  - Currency conversion
+  - 150+ currencies supported
+  - Methods: `get_rates()`, `convert()`, `get_supported_currencies()`
+
+**Helper Functions:**
+- `get(url)`: Simple GET request wrapper
+- `post(url, payload)`: Simple POST request wrapper
+- `find_pokemon(query)`: Find Pokémon names with fuzzy matching
 
 #### 4. **cli.py** - Command Line Interface Builder
 Simplified argparse wrapper for building CLI applications:
@@ -201,12 +254,70 @@ cli.run()
 ```
 
 ### Working with APIs
+
+#### Pokémon API
 ```python
 from batata import PokeAPI
 
 api = PokeAPI()
 pokemon_data = api.get_pokemon_info("pikachu")
 print(pokemon_data)
+```
+
+#### GitHub API
+```python
+from batata import GitHubAPI
+
+# Without authentication (rate limited)
+github = GitHubAPI()
+
+# With authentication (higher limits)
+# github = GitHubAPI(token="your_token")
+
+# Get user info
+user = github.get_user("torvalds")
+print(f"Name: {user['name']}, Repos: {user['public_repos']}")
+
+# Search repositories
+results = github.search_repos("machine learning", sort="stars", per_page=5)
+for repo in results['items']:
+    print(f"{repo['full_name']}: {repo['stargazers_count']} stars")
+```
+
+#### Weather API
+```python
+from batata import WeatherAPI
+
+weather = WeatherAPI(api_key="your_key")
+
+# Current weather
+current = weather.get_current_weather("São Paulo", units="metric")
+print(f"Temperature: {current['main']['temp']}°C")
+print(f"Condition: {current['weather'][0]['description']}")
+
+# Forecast
+forecast = weather.get_forecast("Rio de Janeiro", cnt=3)
+for item in forecast['list']:
+    print(f"{item['dt_txt']}: {item['main']['temp']}°C")
+```
+
+#### Currency API
+```python
+from batata import CurrencyAPI
+
+currency = CurrencyAPI()  # No key needed for basic features
+
+# Get exchange rates
+rates = currency.get_rates("USD")
+print(f"USD to BRL: {rates['rates']['BRL']}")
+
+# Convert currency
+result = currency.convert(100, "USD", "BRL")
+print(f"100 USD = {result['result']:.2f} BRL")
+
+# List supported currencies
+supported = currency.get_supported_currencies()
+print(f"Supported: {len(supported['supported_codes'])} currencies")
 ```
 
 ### Managing Files
@@ -264,12 +375,44 @@ When working with this codebase:
 
 ---
 
+## API Rate Limits and Keys
+
+### GitHubAPI
+- **Without token**: 60 requests/hour
+- **With token**: 5,000 requests/hour
+- **Get token**: https://github.com/settings/tokens
+
+### WeatherAPI
+- **Free tier**: 1,000 calls/day, 60 calls/minute
+- **API key required**: https://openweathermap.org/api
+
+### CurrencyAPI
+- **Without key**: Basic features, no official limit
+- **With key**: More features and guaranteed uptime
+- **Get key**: https://www.exchangerate-api.com/
+
+### PokeAPI
+- **No authentication required**
+- **No official rate limit** (use responsibly)
+
+---
+
+## Examples Directory
+
+Check the `examples/` directory for comprehensive usage examples:
+- `api_examples.py`: Complete examples for all API clients
+- `README.md`: Detailed setup instructions and quick references
+
+---
+
 ## Future Considerations
 
-- Add more API integrations beyond PokeAPI
-- Expand geometric shapes (3D shapes, etc.)
-- Add comprehensive test coverage
+- Add more API integrations (Twitter, Reddit, News APIs)
+- Expand geometric shapes (3D shapes, polygons)
+- Add comprehensive test coverage for all API clients
 - Improve documentation with more examples
 - Consider internationalization (i18n) for output messages
 - Add async support for API operations
 - Enhance CLI with progress bars and interactive prompts
+- Add caching layer for API responses
+- Implement retry logic with exponential backoff
