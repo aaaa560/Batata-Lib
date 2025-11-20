@@ -32,6 +32,7 @@ class API:
         return requests.get(
             url=f'{self.url}/{endpoint}',
             headers=self.headers,
+            timeout=10,
             **payload
         )
 
