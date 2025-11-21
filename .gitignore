@@ -15,3 +15,5 @@ build/lib/batata/math.py
 build/lib/batata/tk.py
 testes
 testes/dados.txt
+API Token.txt
+dist/*
