@@ -2,8 +2,8 @@ import requests
 from typing import Any
 from difflib import get_close_matches
 
-__all__ = ['get', 'post', 'API', 'PokeAPI']
-TRANSLATOR: str = 'https://tradutor-pq-sim.onrender.com'  # Sim isso funciona
+__all__ = ['get', 'post', 'API', 'PokeAPI', 'TranslatorAPI', 'DogAPI', 'RandomUF', 'DarkJoke', 'CatAAS']
+TRANSLATOR: str = 'https://tradutor-pq-sim.onrender.com'  # Sim, isso funciona
 
 
 class API:
@@ -32,6 +32,7 @@ class API:
         return requests.get(
             url=f'{self.url}/{endpoint}',
             headers=self.headers,
+            timeout=10,
             **payload
         )
 
@@ -47,7 +48,7 @@ class API:
 
 
 class TranslatorAPI(API):
-    def __init__(self, url: str, ) -> None:
+    def __init__(self, url: str = TRANSLATOR) -> None:
         super().__init__(url)
 
     def translate(self, payload: dict[str, Any]) -> dict[str, Any]:
@@ -139,8 +140,44 @@ class DarkJoke(API):
         return '\n'.join([data['setup'], data['delivery']])
 
 
-def get(url: str, endpoint: str = '') -> dict[str, Any]:
-    return requests.get(f'{url}/{endpoint}').json()
+class CatAAS(API):
+    """
+    Uma classe para consumir a API Cat as a service(https://cataas.com)
+    """
+
+    def __init__(self):
+        super().__init__(url='https://cataas.com')
+
+    def get_cat_data(self) -> dict[str, Any]:
+        return self.get(
+            endpoint='cat?json=true'
+        ).json()
+
+    def get_img_url(self) -> str:
+        return self.get_cat_data()['url']
+
+    def get_img_type(self) -> str:
+        return self.get_cat_data()['mimetype']
+
+    def get_cat_id(self) -> str:
+        return self.get_cat_data()['id']
+
+    def img_saying(self, sentence: str) -> str:
+        return f'{self.url}/cat/says/{sentence.replace(" ", "%20")}'
+
+    def total_imgs(self) -> int:
+        return self.get('api/count').json()['count']
+
+
+def get(url: str, endpoint: str = '') -> dict[str, Any] | str:
+    if url.endswith('/'):
+        if endpoint.startswith('/'):
+            endpoint = endpoint[1:]
+
+    try:
+        return requests.get(f'{url}/{endpoint}').json()
+    except requests.exceptions.JSONDecodeError:
+        return requests.get(f'{url}/{endpoint}').text
 
 
 def post(url: str, endpoint: str = '', payload: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -148,8 +185,13 @@ def post(url: str, endpoint: str = '', payload: dict[str, Any] | None = None) ->
 
 
 def find_pokemon(query: str) -> list[Any]:
-    r: dict[str, Any] = get('https://pokeapi.co/api/v2/pokemon?limit=10000')
-    names: list[str] = [p['name'] for p in r['results']]
+    r: dict[str, Any] | str = get('https://pokeapi.co/api/v2/pokemon?limit=10000')
+    names: list[str] = [p['name'] for p in r['results']]  # type: ignore
     matchs: list[Any] = get_close_matches(query, names, n=3, cutoff=0.6)
 
     return matchs
+
+
+if __name__ == '__main__':
+    cat: CatAAS = CatAAS()
+    print(cat.total_imgs())

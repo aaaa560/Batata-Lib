@@ -82,8 +82,8 @@ class FileManager:
                             esperado='dict[str, Any]'
                         )
 
-                    data: list[dict[str, Any]] = self.read() # type: ignore
-                    data.append(content) # type: ignore
+                    data: list[dict[str, Any]] = self.read()  # type: ignore
+                    data.append(content)  # type: ignore
                     json.dump(data, file, indent=self.indent)
                     return
                 elif self.mode == 'csv':
@@ -159,6 +159,21 @@ class JSONManager(FileManager):
                 json.dump(data, file, indent=self.indent)
         except Exception as e:
             err(f'Erro ao escrever no arquivo JSON: {e}')
+
+    def update(self, filter_key: str, filter_val: Any, update_key: str, new_val: Any):
+        """
+        Atualiza um item do JSON baseado num filtro.
+        Exemplo:
+        update('server', 'Survivors', 'status', 'stopped')
+        """
+        content = self.read()
+
+        for obj in content:
+            if obj.get(filter_key) == filter_val:
+                obj[update_key] = new_val
+
+        with open(self.arquivo, "w", encoding="utf-8") as file:
+            json.dump(content, file, indent=self.indent)
 
 
 class CSVManager(FileManager):

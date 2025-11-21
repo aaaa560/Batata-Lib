@@ -9,6 +9,7 @@ from batata.files import FileManager, JSONManager, CSVManager
 from batata.colors import COLORS, MODES, Color
 from batata.cli import CLI
 from batata.apis import get, post, API, PokeAPI
+from batata.mcoptions import start_server, save_servers, load_servers, list_servers, get_server, list_mods
 
 __version__ = '0.1.6'
 __all__ = [
@@ -21,5 +22,6 @@ __all__ = [
     'FileManager', 'JSONManager', 'CSVManager',
     'COLORS', 'MODES', 'Color',
     'CLI',
-    'get', 'post', 'API', 'PokeAPI'
+    'get', 'post', 'API', 'PokeAPI',
+    'start_server', 'save_servers', 'load_servers', 'list_servers', 'get_server', 'list_mods'
 ]
