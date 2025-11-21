@@ -6,7 +6,7 @@ from pathlib import Path
 from batata import JSONManager
 from batata.aliases import *
 
-__all__ = ['start_server', 'save_servers', 'load_servers', 'list_servers', 'get_server']
+__all__ = ['start_server', 'save_servers', 'load_servers', 'list_servers', 'get_server', 'list_mods']
 
 
 def stream_output(process, prefix="[SERVER]"):
@@ -24,7 +24,8 @@ def start_stream_thread(process, prefix):
     t.start()
 
 
-def start_server(server_name: str, tipo: str = 'PaperMC', online: bool = False, proxy_type: str = 'BIN') -> None:
+def start_server(server_name: str, tipo: str = 'PaperMC', online: bool = False, proxy_type: str = 'BIN',
+                 json_path: str = './') -> None:
     """
     Inicia um servidor MineCraft a partir do .jar fornecido.
 
@@ -32,10 +33,11 @@ def start_server(server_name: str, tipo: str = 'PaperMC', online: bool = False, 
     :param tipo: O tipo do servidor
     :param online: Se o servidor deve rodar em modo online ou offline
     :param proxy_type: O tipo do proxy (binario, .jar, etc)
+    :param json_path: Localização do arquivo dos servidores
     :return: None
     """
 
-    server: dict[str, str] = get_server(server_name)
+    server: dict[str, str] = get_server(server_name=server_name, path=json_path)
 
     if not server:
         err(f'Servidor "{server_name}" não encontrado!')
@@ -62,7 +64,7 @@ def start_server(server_name: str, tipo: str = 'PaperMC', online: bool = False, 
             '-Xmx2048M',  # RAM máxima
             '-Xms2048M',  # RAM inicial
             '-jar',
-            jar_name,
+            str(jar_full_path),
             'nogui'
         ],
         cwd=server_path,
@@ -271,14 +273,27 @@ def list_servers(arquivo: str = 'servers.json', path: str = './') -> list[dict[s
     return servers
 
 
-def get_server(server_name: str) -> dict[str, str]:
+def list_mods(server_path: str, server_config_path: str, server: str) -> list[str]:
+    mods: list[str] = []
+    server = get_server(path=server_config_path, server_name=server)
+    mods_path = Path(server['server_path']).expanduser() / 'mods'
+
+    for mod in mods_path.iterdir():
+        if mod.name != '.DS_Store':
+            mods.append(mod.name)
+
+    return mods
+
+
+def get_server(server_name: str, path: str = './') -> dict[str, str]:
     """
     Busca servidor por nome
 
     :param server_name: Nome do servidor
+    :param path: O caminho do servidor
     :return: Dicionário com dados do servidor ou vazio
     """
-    servers: list[dict[str, str]] = load_servers()
+    servers: list[dict[str, str]] = load_servers(arquivo='servers.json', path=path)
 
     for server in servers:
         if server.get('server_name') == server_name:
@@ -286,3 +301,10 @@ def get_server(server_name: str) -> dict[str, str]:
 
     warn(f'Servidor "{server_name}" não encontrado.')
     return {}
+
+
+if __name__ == '__main__':
+    SERVERS_PATH = str(Path('~/Desktop/Coisas Do Decaptado/Mine Server/').expanduser())
+    SERVERS_CONFIGS = str(Path('~/Desktop/Coisas Do Decaptado/MineServer-Controller/').expanduser())
+
+    print(list_mods(server_path=SERVERS_PATH, server_config_path=SERVERS_CONFIGS, server='Survivors'))
