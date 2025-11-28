@@ -7,4 +7,3 @@ build/lib/batata/*
 testes/*
 API Token.txt
 dist/*
-batata/NaN.py
