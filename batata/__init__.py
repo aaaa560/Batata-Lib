@@ -1,7 +1,7 @@
 # batata/__init__.py
 from batata.geral import mostra, get_num, par, primo, divisivel, raiz_qdd
 from batata.aliases import info, warn, err, out, perguntar
-from batata.math import fat, soma, area, produto
+from batata.mat import fat, soma, area, produto
 from batata.formas import Retangulo, Circulo, Triangulo, FormaQualquer, FormaGeometrica
 from batata.errors import ParamError, ScrapingError
 from batata.scraping import Scraper
@@ -10,6 +10,7 @@ from batata.colors import COLORS, MODES, Color
 from batata.cli import CLI
 from batata.apis import get, post, API, PokeAPI
 from batata.mcoptions import start_server, save_servers, load_servers, list_servers, get_server, list_mods
+from batata.PyDown import PyDown
 
 __version__ = '0.1.6'
 __all__ = [
@@ -23,5 +24,6 @@ __all__ = [
     'COLORS', 'MODES', 'Color',
     'CLI',
     'get', 'post', 'API', 'PokeAPI',
-    'start_server', 'save_servers', 'load_servers', 'list_servers', 'get_server', 'list_mods'
+    'start_server', 'save_servers', 'load_servers', 'list_servers', 'get_server', 'list_mods',
+    'PyDown'
 ]
