@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='batata-lib',
-    version='0.1.6',
+    version='0.1.7',
     author='Decaptado',
     description='Biblioteca pessoal pra facilitar minha vida',
     long_description=long_description,
@@ -22,7 +22,7 @@ setup(
         'Programming Language :: Python :: 3.12',
     ],
     python_requires='>=3.10',
-    install_requires=['requests>=2.0', 'beautifulsoup4>=4.0.0'],
+    install_requires=['requests>=2.0', 'beautifulsoup4>=4.0.0', 'yt-dlp==2025.11.12'],
     extras_require={
         'dev': [
             'pytest>=7.0',

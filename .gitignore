@@ -1,19 +1,9 @@
 .idea
-testes/teste.py
 batata_lib.egg-info
 build
-build/bdist.macosx-10.13-universal2
-build/lib
-build/lib/batata/__init__.py
-build/lib/batata/atalhos.py
-build/lib/batata/colors.py
-build/lib/batata/errors.py
-build/lib/batata/files.py
-build/lib/batata/formas.py
-build/lib/batata/geral.py
-build/lib/batata/math.py
-build/lib/batata/tk.py
-testes
-testes/dados.txt
+build/*
+build/lib/*
+build/lib/batata/*
+testes/*
 API Token.txt
 dist/*

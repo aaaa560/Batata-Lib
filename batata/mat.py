@@ -1,7 +1,9 @@
 from batata.errors import ParamError
 from batata.formas import FormaGeometrica
 
-__all__ = ['produto', 'fat', 'soma', 'area']
+pi = 3.141592653589793
+
+__all__ = ['produto', 'fat', 'soma', 'area', 'pi']
 
 
 def produto(*valores: int) -> int:

@@ -1,9 +1,11 @@
 import requests
 from typing import Any
 from difflib import get_close_matches
+from requests.exceptions import ConnectionError, Timeout, HTTPError
 
 __all__ = ['get', 'post', 'API', 'PokeAPI', 'TranslatorAPI', 'DogAPI', 'RandomUF', 'DarkJoke', 'CatAAS']
-TRANSLATOR: str = 'https://tradutor-pq-sim.onrender.com'  # Sim, isso funciona
+
+TRANSLATOR: str = 'https://tradutor-pq-sim.onrender.com'
 
 
 class API:
@@ -48,15 +50,19 @@ class API:
 
 
 class TranslatorAPI(API):
-    def __init__(self, url: str = TRANSLATOR) -> None:
+    def __init__(self, url: str = TRANSLATOR, endpoint: str = 'translate') -> None:
         super().__init__(url)
+        self.endpoint = endpoint
 
-    def translate(self, payload: dict[str, Any]) -> dict[str, Any]:
-        return post(
-            url=self.url,
-            endpoint='translate',
-            payload=payload
-        )
+    def translate(self, payload: dict[str, Any]) -> dict[str, Any] | None:
+        try:
+            return post(
+                url=self.url,
+                endpoint=self.endpoint,
+                payload=payload
+            )
+        except (ConnectionError, Timeout, HTTPError, Exception):
+            return None
 
 
 class PokeAPI(API):
@@ -104,20 +110,19 @@ class RandomUF(API):
     def __init__(self) -> None:
         super().__init__(url='https://uselessfacts.jsph.pl')
 
-    def get_fact(self, include_id: bool = False, include_source: bool = False, translate: bool = True) -> dict[
-        str, Any]:
+    def get_fact(self, include_id: bool = False, include_source: bool = False, translate: bool = True) -> dict[str, Any]:
         data: dict[str, Any] = self.get('api/v2/facts/random').json()
         if translate:
-            translator: TranslatorAPI = TranslatorAPI(TRANSLATOR)
+            translator: TranslatorAPI = TranslatorAPI()
 
-            try:
-                traduction = translator.translate({
-                    "text": data['text'],
-                    "to": "pt"
-                })
-                result: dict[str, Any] = {'fact': traduction['translatedText']}
-            except:
+            traduction: dict[str, Any] | None = translator.translate({
+                "text": data['text'],
+                "to": "pt"
+            })
+            if not traduction:
                 result: dict[str, Any] = {'fact': data['text']}
+            else:
+                result: dict[str, Any] = {'fact': traduction['translatedText']}
         else:
             result: dict[str, Any] = {'fact': data['text']}
 
@@ -178,6 +183,8 @@ def get(url: str, endpoint: str = '') -> dict[str, Any] | str:
         return requests.get(f'{url}/{endpoint}').json()
     except requests.exceptions.JSONDecodeError:
         return requests.get(f'{url}/{endpoint}').text
+    except ConnectionError:
+        return requests.get(f'{url}{endpoint}').json()
 
 
 def post(url: str, endpoint: str = '', payload: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -190,8 +197,3 @@ def find_pokemon(query: str) -> list[Any]:
     matchs: list[Any] = get_close_matches(query, names, n=3, cutoff=0.6)
 
     return matchs
-
-
-if __name__ == '__main__':
-    cat: CatAAS = CatAAS()
-    print(cat.total_imgs())
