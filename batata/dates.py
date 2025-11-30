@@ -16,6 +16,3 @@ def dias_para(dia: int, mes: int) -> str:
         return f'Faltam só {dias} dias!'
 
     return f'Faltam {dias} dias'
-
-
-print(dias_para(26, 11))
