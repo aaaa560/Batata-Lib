@@ -12,8 +12,9 @@ from batata.apis import get, post, API, PokeAPI
 from batata.mcoptions import start_server, save_servers, load_servers, list_servers, get_server, list_mods
 from batata.PyDown import PyDown
 
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 __all__ = [
+    '__version__',
     'mostra', 'get_num', 'par', 'primo',
     'info', 'warn', 'err', 'out', 'perguntar',
     'fat', 'soma', 'area', 'divisivel', 'raiz_qdd', 'produto',

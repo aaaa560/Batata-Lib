@@ -1,12 +1,11 @@
 from setuptools import setup, find_packages
-from batata import __version__
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name='batata-lib',
-    version=__version__,
+    version='0.1.7',
     author='Decaptado',
     description='Biblioteca pessoal pra facilitar minha vida',
     long_description=long_description,
