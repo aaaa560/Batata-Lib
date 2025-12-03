@@ -31,7 +31,7 @@ class FileManager:
         :return: None
         """
         try:
-            with open(self.arquivo, "w", encoding="utf-8") as file:
+            with open(self.arquivo, 'w', encoding='utf-8') as file:
                 if self.mode == 'json':
                     file.write(json.dumps([], indent=self.indent))
                 elif self.mode == 'csv':
@@ -48,7 +48,7 @@ class FileManager:
         :return: O conteúdo do arquivo
         """
         try:
-            with open(self.arquivo, "r", encoding="utf-8") as file:
+            with open(self.arquivo, 'r', encoding='utf-8') as file:
                 if self.mode == 'json':
                     return json.loads(file.read())
                 elif self.mode == 'csv':
@@ -73,7 +73,7 @@ class FileManager:
         :return: None
         """
         try:
-            with open(self.arquivo, "a", encoding="utf-8") as file:
+            with open(self.arquivo, 'a', encoding='utf-8') as file:
                 if self.mode == 'json':
                     if type(content) != dict[str, Any]:
                         raise ParamError(
@@ -99,7 +99,7 @@ class FileManager:
                 file.write(str(content))
         except FileNotFoundError:
             self.creat()
-            with open(self.arquivo, "a", encoding="utf-8") as file:
+            with open(self.arquivo, 'a', encoding='utf-8') as file:
                 file.write(str(content))
 
     def __repr__(self) -> str:
@@ -116,7 +116,7 @@ class JSONManager(FileManager):
 
         :return: None
         """
-        with open(self.arquivo, "w", encoding="utf-8") as file:
+        with open(self.arquivo, 'w', encoding='utf-8') as file:
             file.write(json.dumps([], indent=self.indent))
 
     def read(self) -> list[dict[str, Any]]:
@@ -126,12 +126,12 @@ class JSONManager(FileManager):
         :return: Conteúdo do JSON como uma lista
         """
         try:
-            with open(self.arquivo, "r", encoding="utf-8") as file:
+            with open(self.arquivo, 'r', encoding='utf-8') as file:
                 return json.load(file)
         except FileNotFoundError:
             err('Arquivo JSON não encontrado! Criando um novo...')
             self.creat()
-            with open(self.arquivo, "r", encoding="utf-8") as file:
+            with open(self.arquivo, 'r', encoding='utf-8') as file:
                 return json.load(file)
         except Exception as e:
             err(f'Erro ao ler o arquivo JSON: {e}')
@@ -150,12 +150,12 @@ class JSONManager(FileManager):
         data.append(content)
 
         try:
-            with open(self.arquivo, "w", encoding="utf-8") as file:
+            with open(self.arquivo, 'w', encoding='utf-8') as file:
                 json.dump(data, file, indent=self.indent)
         except FileNotFoundError as not_file:
             err(f'Arquivo não encontrado: {not_file}! Criando um novo...')
             self.creat()
-            with open(self.arquivo, "w", encoding="utf-8") as file:
+            with open(self.arquivo, 'w', encoding='utf-8') as file:
                 json.dump(data, file, indent=self.indent)
         except Exception as e:
             err(f'Erro ao escrever no arquivo JSON: {e}')
@@ -172,7 +172,7 @@ class JSONManager(FileManager):
             if obj.get(filter_key) == filter_val:
                 obj[update_key] = new_val
 
-        with open(self.arquivo, "w", encoding="utf-8") as file:
+        with open(self.arquivo, 'w', encoding='utf-8') as file:
             json.dump(content, file, indent=self.indent)
 
 
@@ -187,7 +187,7 @@ class CSVManager(FileManager):
         :return: None
         """
         try:
-            with open(self.arquivo, "w", encoding="utf-8") as file:
+            with open(self.arquivo, 'w', encoding='utf-8') as file:
                 writer = csv.writer(file)
                 if header:
                     writer.writerow(header)
@@ -202,7 +202,7 @@ class CSVManager(FileManager):
         :return: O conteúdo do CSV
         """
         try:
-            with open(self.arquivo, "r", encoding="utf-8") as file:
+            with open(self.arquivo, 'r', encoding='utf-8') as file:
                 reader = csv.reader(file)
                 return [row for row in reader]
         except FileNotFoundError:
@@ -214,14 +214,90 @@ class CSVManager(FileManager):
 
     def write(self, content: list[str]) -> None:
         try:
-            with open(self.arquivo, "a", encoding="utf-8") as file:
+            with open(self.arquivo, 'a', encoding='utf-8') as file:
                 writer = csv.writer(file)
                 writer.writerow(content)
         except FileNotFoundError:
             err('Arquivo CSV não encontrado! Criando um novo...')
             self.creat()
-            with open(self.arquivo, "a", encoding="utf-8") as file:
+            with open(self.arquivo, 'a', encoding='utf-8') as file:
                 writer = csv.writer(file)
                 writer.writerow(content)
         except Exception as e:
             err(f'Erro ao escrever no arquivo CSV: {e}')
+
+
+class NKVManager(FileManager):
+    SEPS: list[str] = [
+        '|', '/', '\\', ' ', '-'
+    ]
+
+    def __init__(self, name: str, path: str = './', sep_type: str = '|'):
+        super().__init__(name=name, path=path)
+        if sep_type not in self.SEPS:
+            raise ParamError(
+                message='\033[1;31mERRO! \033[1;34mParametro "sep_type" invalido!',
+                param='sep_type',
+                esperado=' | '.join(self.SEPS)
+            )
+        self.sep_type = sep_type
+        if path.endswith('/'):
+            self.arquivo = f'{path}{name}'
+        else:
+            self.arquivo = f'{path}/{name}'
+
+    def write(self, key: str, sep: str, value: Any) -> None:
+        try:
+            with open(self.arquivo, 'a', encoding='utf-8') as file:
+                if type(value) == str:
+                    file.write(f'{key}{sep}"{value}"\n')
+                    return
+                file.write(f'{key}{sep}{value}\n')
+        except FileNotFoundError:
+            self.creat()
+            with open(self.arquivo, 'a', encoding='utf-8') as file:
+                file.write(f'{key}{sep}{value}\n')
+
+    def read(self) -> list[dict[str, Any]]:
+        try:
+            with open(self.arquivo, 'r', encoding='utf-8') as file:
+                brute = file.read()
+        except FileNotFoundError:
+            err('Arquivo não encontrado! Criando novo arquivo...')
+            self.creat()
+            brute = ''
+
+        content: list[dict[str, Any]] = []
+        brute = brute.split('\n')
+
+        for linha in brute:
+            data = linha.split(self.sep_type)
+            if data.__len__() == 2:
+                key, val = data
+                if '.' in val:
+                    try:
+                        val = float(val)
+                    except ValueError:
+                        pass
+                else:
+                    try:
+                        val = int(val)
+                    except ValueError:
+                        pass
+
+                content.append({key: val})
+
+        return content
+
+    def get_sep(self) -> str:
+        separator: str
+
+        with open(self.arquivo, 'r', encoding='utf-8') as file:
+            content = file.read()
+
+        for sep in self.SEPS:
+            for char in content:
+                if char == sep:
+                    return sep
+
+        raise ValueError
